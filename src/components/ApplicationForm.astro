@@ -1,0 +1,192 @@
+---
+// A reusable application form that posts to Formspree.
+// type: "community" or "volunteer"
+// endpoint comes from src/data/site.js (forms.community / forms.volunteer)
+import { contact } from '../data/site.js';
+
+const { type, endpoint, subject, submitLabel, successTitle, successMessage } = Astro.props;
+const isVolunteer = type === 'volunteer';
+const id = `${type}-form`;
+---
+<div class="form-wrap" data-form-wrap data-email={contact.email}>
+  <form
+    class="apply-form"
+    id={id}
+    method="POST"
+    action={endpoint}
+    novalidate
+    data-endpoint={endpoint}
+  >
+    <!-- Labels so you can tell the two forms apart in your inbox -->
+    <input type="hidden" name="_subject" value={subject} />
+    <input type="hidden" name="form_type" value={isVolunteer ? 'Volunteer interest' : 'Empowerment community application'} />
+    <!-- Spam trap: real people never see or fill this -->
+    <p class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label></p>
+
+    <div class="field">
+      <label for={`${id}-name`}>Full Name <span class="req" aria-hidden="true">*</span></label>
+      <input id={`${id}-name`} name="name" type="text" autocomplete="name" required data-label="full name" aria-describedby={`${id}-name-err`} />
+      <p class="field-error" id={`${id}-name-err`} hidden></p>
+    </div>
+
+    <div class="field">
+      <label for={`${id}-email`}>Email Address <span class="req" aria-hidden="true">*</span></label>
+      <input id={`${id}-email`} name="email" type="email" autocomplete="email" inputmode="email" required data-label="email address" aria-describedby={`${id}-email-err`} />
+      <p class="field-error" id={`${id}-email-err`} hidden></p>
+    </div>
+
+    <div class="field">
+      <label for={`${id}-phone`}>Phone Number / WhatsApp <span class="req" aria-hidden="true">*</span></label>
+      <input id={`${id}-phone`} name="phone" type="tel" autocomplete="tel" inputmode="tel" required data-label="phone or WhatsApp number" aria-describedby={`${id}-phone-hint ${id}-phone-err`} />
+      <p class="hint" id={`${id}-phone-hint`}>Include your country code, for example +234.</p>
+      <p class="field-error" id={`${id}-phone-err`} hidden></p>
+    </div>
+
+    <div class="field">
+      <label for={`${id}-location`}>Country and Location <span class="req" aria-hidden="true">*</span></label>
+      <input id={`${id}-location`} name="location" type="text" autocomplete="country-name" required data-label="country and location" aria-describedby={`${id}-location-err`} />
+      <p class="field-error" id={`${id}-location-err`} hidden></p>
+    </div>
+
+    {isVolunteer ? (
+      <>
+        <div class="field">
+          <label for={`${id}-areas`}>Areas You Would Like to Volunteer In <span class="req" aria-hidden="true">*</span></label>
+          <textarea id={`${id}-areas`} name="volunteer_areas" required data-label="areas you would like to volunteer in" aria-describedby={`${id}-areas-hint ${id}-areas-err`}></textarea>
+          <div id={`${id}-areas-hint`} class="field" style="gap:10px">
+            <p class="hint">Examples:</p>
+            <ul class="chips">
+              <li>Spiritual Teaching</li>
+              <li>Business and Entrepreneurship</li>
+              <li>Freelancing</li>
+              <li>Financial Knowledge</li>
+            </ul>
+            <p class="hint">You can mention one or more areas, and describe other ways you would like to contribute, including mentorship, funding or other forms of support.</p>
+          </div>
+          <p class="field-error" id={`${id}-areas-err`} hidden></p>
+        </div>
+        <div class="field">
+          <label for={`${id}-about`}>Briefly Tell Us About Yourself <span class="req" aria-hidden="true">*</span></label>
+          <textarea id={`${id}-about`} name="about" required data-label="a short introduction about yourself" aria-describedby={`${id}-about-err`}></textarea>
+          <p class="field-error" id={`${id}-about-err`} hidden></p>
+        </div>
+        <p class="voluntary"><strong>Voluntary and unpaid.</strong> Volunteering with Wellseed Global is a voluntary, unpaid way to share your knowledge, time and abilities.</p>
+      </>
+    ) : (
+      <div class="field">
+        <label for={`${id}-about`}>Tell Us About Yourself <span class="req" aria-hidden="true">*</span></label>
+        <textarea id={`${id}-about`} name="about" required data-label="a short introduction about yourself" aria-describedby={`${id}-about-err`}></textarea>
+        <p class="field-error" id={`${id}-about-err`} hidden></p>
+      </div>
+    )}
+
+    <p class="form-status" role="alert" data-status hidden></p>
+    <button class="btn btn-primary" type="submit" data-submit>{submitLabel}</button>
+  </form>
+
+  <div class="form-success" role="status" tabindex="-1" data-success hidden>
+    <h2>{successTitle}</h2>
+    <p>{successMessage}</p>
+    <p><a class="textlink" href="/">Back to the homepage <span aria-hidden="true">→</span></a></p>
+  </div>
+</div>
+
+<script>
+  const FORMSPREE = /^https:\/\/formspree\.io\/f\/[A-Za-z0-9]+\/?$/;
+
+  document.querySelectorAll('[data-form-wrap]').forEach((wrap) => {
+    const form = wrap.querySelector('form');
+    const status = wrap.querySelector('[data-status]');
+    const success = wrap.querySelector('[data-success]');
+    const button = wrap.querySelector('[data-submit]');
+    const email = wrap.getAttribute('data-email');
+    const originalLabel = button.textContent;
+
+    const fields = [...form.querySelectorAll('input[required], textarea[required]')];
+
+    function messageFor(el) {
+      const label = el.getAttribute('data-label') || 'this field';
+      const value = el.value.trim();
+      if (!value) return `Please enter your ${label}.`;
+      if (el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Please enter a valid email address, like name@example.com.';
+      if (el.type === 'tel' && value.replace(/\D/g, '').length < 7) return 'Please enter a valid phone number, including your country code.';
+      return '';
+    }
+
+    function showFieldError(el, msg) {
+      const err = document.getElementById(el.id + '-err');
+      if (!err) return;
+      err.textContent = msg;
+      err.hidden = !msg;
+      el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    }
+
+    fields.forEach((el) => {
+      el.addEventListener('blur', () => showFieldError(el, messageFor(el)));
+      el.addEventListener('input', () => {
+        if (el.getAttribute('aria-invalid') === 'true') showFieldError(el, messageFor(el));
+      });
+    });
+
+    function showStatus(msg) {
+      status.textContent = msg;
+      status.hidden = !msg;
+    }
+
+    function setLoading(loading) {
+      button.disabled = loading;
+      button.setAttribute('aria-busy', loading ? 'true' : 'false');
+      button.textContent = loading ? 'Sending…' : originalLabel;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      showStatus('');
+
+      let firstInvalid = null;
+      fields.forEach((el) => {
+        const msg = messageFor(el);
+        showFieldError(el, msg);
+        if (msg && !firstInvalid) firstInvalid = el;
+      });
+      if (firstInvalid) {
+        firstInvalid.focus();
+        return;
+      }
+
+      const endpoint = form.getAttribute('data-endpoint') || '';
+      if (!FORMSPREE.test(endpoint)) {
+        showStatus(`This form is not connected yet, so your details were not sent. Please email us at ${email} instead.`);
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (res.ok) {
+          // Only now, after Formspree confirms, do we hide the form and thank the visitor.
+          form.reset();
+          form.hidden = true;
+          success.hidden = false;
+          success.focus();
+          success.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          let detail = '';
+          try {
+            const data = await res.json();
+            if (data && data.errors && data.errors[0] && data.errors[0].message) detail = ' ' + data.errors[0].message.replace(/\.?$/, '.');
+          } catch (_) {}
+          showStatus(`Sorry, we could not send your details.${detail} Please try again, or email us at ${email}.`);
+        }
+      } catch (_) {
+        showStatus(`We could not reach the server. Please check your internet connection and try again, or email us at ${email}.`);
+      } finally {
+        setLoading(false);
+      }
+    });
+  });
+</script>

@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ApplicationForm from '../components/ApplicationForm.astro';
+import { forms } from '../data/site.js';
+---
+<Base title="Become a Volunteer" description="Volunteer with Wellseed Global: share your knowledge, skills and experience to equip others and support God's work.">
+  <PageHero eyebrow="Volunteer With Us" title="Share What You Have. Empower Others.">
+    <p>Do you have knowledge, skills, experience or resources you are willing to share? Join us in equipping others, supporting God's work and making a difference in people's lives.</p>
+  </PageHero>
+
+  <section class="form-section" aria-label="Volunteer interest form">
+    <div class="wrap">
+      <p class="form-back"><a class="textlink" href="/get-involved"><span aria-hidden="true">←</span> Back to previous page</a></p>
+      <div class="form-card">
+        <ApplicationForm
+          type="volunteer"
+          endpoint={forms.volunteer.endpoint}
+          subject={forms.volunteer.subject}
+          submitLabel="Submit Volunteer Interest"
+          successTitle="Thank you."
+          successMessage="Thank you for your willingness to contribute to Wellseed Global. Your details have been received. We appreciate your desire to empower others and support the mission."
+        />
+      </div>
+    </div>
+  </section>
+</Base>

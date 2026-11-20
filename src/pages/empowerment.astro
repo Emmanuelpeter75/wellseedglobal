@@ -1,0 +1,79 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaStrip from '../components/CtaStrip.astro';
+
+const areas = [
+  {
+    t: 'Spiritual Growth',
+    d: 'We want to help young Christians build a strong personal relationship with God, grow in their understanding of His Word, develop a consistent prayer life and live out their faith through godly character.',
+    f: [
+    "Understanding and applying God's Word.",
+    "Building a consistent prayer life.",
+    "Developing godly character, integrity and discipline.",
+    "Growing in faith and living according to biblical principles."
+],
+  },
+  {
+    t: 'Financial Education',
+    d: 'We want to equip people with financial knowledge to make wise decisions, manage money responsibly and understand how to build and grow wealth.',
+    f: ['Financial literacy and money management.', 'Saving and budgeting.', 'Investing and wealth creation.', 'Financial discipline and stewardship.'],
+  },
+  {
+    t: 'Skills & Development',
+    d: 'We want to help people discover and develop practical abilities that create opportunities, provide value and can become sources of income.',
+    f: ['Freelancing and digital skills.', 'Technology and creative skills.', 'Professional development.', 'Leadership and practical learning.'],
+  },
+  {
+    t: 'Business & Entrepreneurship',
+    d: 'We want to equip people with the knowledge and understanding needed to start businesses, recognise opportunities and build sustainable resources.',
+    f: ['Business ideas and planning.', 'Identifying opportunities.', 'Business management and growth.', 'Wealth creation and sustainable businesses.'],
+  },
+];
+---
+<Base title="Empowerment" description="Wellseed Global's initial focus: empowering young people through spiritual growth, financial education, skills and entrepreneurship.">
+  <PageHero eyebrow="Empowerment" title="Empowering People for Kingdom Impact">
+    <p>We empower young Christians to grow in faith, build businesses, create wealth to support God's work and also transform lives.</p>
+  </PageHero>
+
+  <section class="section" aria-labelledby="focus-title">
+    <div class="wrap">
+      <div class="emp-head">
+        <span class="status"><i aria-hidden="true"></i>Where Our Work Begins</span>
+        <h2 id="focus-title">How We Empower People</h2>
+        <p class="lead">Empowerment is where Wellseed Global is starting. These are the areas we are developing, and they will grow as the movement grows.</p>
+      </div>
+      <div class="areas">
+        {areas.map((a, i) => (
+          <article class="area" aria-labelledby={`area-${i + 1}`}>
+            <div class="area-head">
+              <span class="area-num">0{i + 1}</span>
+              <h3 id={`area-${i + 1}`}>{a.t}</h3>
+            </div>
+            <div class="area-body">
+              <p>{a.d}</p>
+              <h4>Our focus includes:</h4>
+              <ul>{a.f.map((x) => <li>{x}</li>)}</ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section band" aria-labelledby="beyond-title">
+    <div class="wrap split">
+      <div class="sticky">
+        <span class="eyebrow">Our Greater Purpose</span>
+        <h2 id="beyond-title">Empowerment Is Only the Beginning</h2>
+      </div>
+      <div class="prose">
+        <p class="lead">We don't want empowerment to end with gaining knowledge, skills or financial success.</p>
+        <p>Our desire is to see young people use what they learn, the businesses they build and the resources they develop to support God's work, help those in need and transform lives.</p>
+        <p>Taking part is voluntary and rests on shared values and a willingness to learn, grow and contribute to a greater purpose.</p>
+      </div>
+    </div>
+  </section>
+
+  <CtaStrip title="Grow with purpose. Be part of the journey." />
+</Base>

@@ -1,0 +1,85 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import PathCard from '../components/PathCard.astro';
+import { links } from '../data/site.js';
+---
+<Base title="Get Involved" description="Join Wellseed Global to be empowered, or volunteer your knowledge and abilities to help equip others.">
+  <PageHero eyebrow="Join the movement" title="Be Part of Wellseed Mission">
+    <p>Wellseed Global is a Christ-centred movement bringing young Christians together to grow, build and make an impact.</p>
+    <p class="two-ways">You can be part of this vision in two ways.</p>
+  </PageHero>
+
+  <section class="section why" aria-labelledby="why-title">
+    <div class="wrap">
+      <div class="why-grid">
+        <div class="why-item">
+          <h2 id="why-title">Why We Bring People Together</h2>
+          <p>We bring young Christians together to grow in faith, develop their abilities and become equipped spiritually, financially and professionally. We believe that by building people and helping them develop their potential, we can create resources that support God's work and transform lives.</p>
+        </div>
+        
+      </div>
+      <p class="why-statement">We empower people to build resources that can serve God's Kingdom and transform lives.</p>
+    </div>
+  </section>
+
+  <section class="gi-options" aria-label="Two ways to get involved">
+    <div class="wrap">
+      <div class="paths">
+        <PathCard
+          id="opt-learn-title"
+          tag="Join Us to Be Empowered"
+          title="Grow. Build. Make an Impact."
+          areasTitle="Areas of development"
+          areas={[
+            "Spiritual growth and understanding of God's Word.",
+            'Financial education and responsible wealth creation.',
+            'Entrepreneurship and business development.',
+            'Freelancing and digital skills.',
+            'Personal development and leadership.',
+            'Knowledge, mentorship and practical learning.',
+          ]}
+          buttonLabel="Join the Empowerment Community"
+          buttonHref={links.empowermentApply}
+        >
+          <p class="desc">Are you a young Christian who desires to grow in Christ, develop your abilities, understand finances and learn how to build businesses and create wealth?</p>
+          <p class="desc">Wellseed Global provides a community where you can grow spiritually, gain financial knowledge, develop practical skills and learn about business and entrepreneurship.</p>
+          <p class="desc">Our desire is to equip you to build more than a successful personal life. We want to see you develop the knowledge, abilities and resources to support God's work, help those in need and become part of a generation that funds Kingdom work.</p>
+        </PathCard>
+
+        <PathCard
+          id="opt-serve-title"
+          tag="Join Us to Empower Others"
+          title="Share Your Knowledge. Empower Others"
+          areasTitle="Areas where people can contribute"
+          areas={[
+            'Spiritual teaching and Christian mentorship.',
+            'Financial education.',
+            'Business and entrepreneurship.',
+            'Freelancing and digital skills.',
+            'Graphic design, creative arts and media.',
+            'Technology and professional development.',
+            'Administration and programme support.',
+            'Community service and outreach.',
+          ]}
+          buttonLabel="Become a Volunteer"
+          buttonHref={links.volunteerApply}
+        >
+          <p class="desc">Do you have knowledge, skills, experience or a passion for helping others grow? Are you willing to share what you know and use your God-given abilities to make a difference?</p>
+          <p class="desc">We welcome young entrepreneurs, professionals, creatives, business owners, educators and spiritually grounded individuals who are willing to contribute their time and knowledge to help equip others.</p>
+          <p class="desc">You don't have to do everything. Whatever your area of knowledge or experience, you can contribute to the growth and development of others.</p>
+          <p slot="note" class="voluntary"><strong>Voluntary and unpaid.</strong> These opportunities are for people who willingly offer their knowledge, time and abilities to the mission.</p>
+        </PathCard>
+      </div>
+    </div>
+  </section>
+
+  <section class="section closing on-navy" aria-labelledby="closing-title">
+    <div class="wrap">
+      <span class="eyebrow">Christ's name is glorified in every impact.</span>
+      <h2 id="closing-title">Building People and Resources for God's Work.</h2>
+      <p class="lead">We believe that the knowledge, skills, businesses and resources God has given us can be used for a greater purpose. We bring people together to grow, learn, share what they have and build resources that can support churches, advance God's work and help those in need.</p>
+      <p class="statement-line">Christ is our foundation. His love is our motivation. His name is glorified in every impact.</p>
+    </div>
+  </section>
+</Base>

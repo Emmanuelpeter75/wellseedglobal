@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { contact } from '../data/site.js';
+---
+<Base title="Contact" description="Contact Wellseed Global by email, phone or WhatsApp.">
+  <PageHero eyebrow="Get in Touch" title="We'd Love to Hear From You.">
+    <p>Have a question, want to learn more about Wellseed Global or explore ways to work with us? Feel free to reach out through any of our contact channels.</p>
+  </PageHero>
+
+  <section class="section" aria-label="Contact information">
+    <div class="wrap">
+      <ul class="contact-list">
+        <li>
+          <span class="c-label">Email</span>
+          <a class="c-value" href={`mailto:${contact.email}`}>{contact.email}</a>
+          <span class="c-hint">Tap to send us an email</span>
+        </li>
+        <li>
+          <span class="c-label">Phone</span>
+          <a class="c-value" href={`tel:+${contact.phoneIntl}`}>{contact.phoneDisplay}</a>
+          <span class="c-hint">Tap to call</span>
+        </li>
+        <li>
+          <span class="c-label">WhatsApp</span>
+          <a class="c-value" href={`https://wa.me/${contact.whatsappIntl}`} target="_blank" rel="noopener noreferrer">{contact.phoneDisplay}</a>
+          <span class="c-hint">Tap to start a chat</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+</Base>

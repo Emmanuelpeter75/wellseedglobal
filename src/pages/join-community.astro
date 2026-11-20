@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ApplicationForm from '../components/ApplicationForm.astro';
+import { forms } from '../data/site.js';
+---
+<Base title="Join the Empowerment Community" description="Apply to join the Wellseed Global Empowerment Community: grow spiritually, develop your abilities and become equipped to build resources.">
+  <PageHero eyebrow="Join the Community" title="Take Your Next Step with Wellseed.">
+    <p>We welcome young Christians who desire to grow spiritually, develop their abilities and become equipped to build resources that can support God's work and transform lives.</p>
+  </PageHero>
+
+  <section class="form-section" aria-label="Application form">
+    <div class="wrap">
+      <p class="form-back"><a class="textlink" href="/get-involved"><span aria-hidden="true">←</span> Back to previous page</a></p>
+      <div class="form-card">
+        <ApplicationForm
+          type="community"
+          endpoint={forms.community.endpoint}
+          subject={forms.community.subject}
+          submitLabel="Join the Community"
+          successTitle="Thank you."
+          successMessage="Thank you for your interest in joining the Wellseed Global Empowerment Community. Your details have been received. We appreciate your interest and look forward to connecting with you."
+        />
+      </div>
+    </div>
+  </section>
+</Base>

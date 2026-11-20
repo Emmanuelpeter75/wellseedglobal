@@ -1,0 +1,16 @@
+---
+// One of the two participation options on the Get Involved page.
+// Both options use the same card style.
+const { tag, title, areasTitle, areas = [], buttonLabel, buttonHref, id } = Astro.props;
+---
+<article class="path" aria-labelledby={id}>
+  <span class="tag">{tag}</span>
+  <h2 id={id}>{title}</h2>
+  <div class="path-sub"><slot /></div>
+  <div class="list-wrap">
+    <h4>{areasTitle}</h4>
+    <ul>{areas.map((a) => <li>{a}</li>)}</ul>
+  </div>
+  <slot name="note" />
+  <a class="btn btn-primary" href={buttonHref}>{buttonLabel}</a>
+</article>

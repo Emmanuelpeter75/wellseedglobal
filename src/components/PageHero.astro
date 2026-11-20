@@ -1,0 +1,11 @@
+---
+// Navy header block used at the top of the inner pages.
+const { eyebrow, title } = Astro.props;
+---
+<section class="page-hero on-navy" aria-labelledby="page-title">
+  <div class="wrap">
+    <span class="eyebrow">{eyebrow}</span>
+    <h1 id="page-title">{title}</h1>
+    <div class="intro"><slot /></div>
+  </div>
+</section>

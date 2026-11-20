@@ -1,0 +1,50 @@
+---
+import Logo from './Logo.astro';
+import { site, footerNav, contact, social } from '../data/site.js';
+
+const icons = {
+  Facebook: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 8V6.5c0-.8.2-1.2 1.3-1.2H17V2h-2.6C11.5 2 10 3.7 10 6.2V8H7.5v3.3H10V22h4V11.3h2.7L17 8z"/></svg>',
+  Instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>',
+  YouTube: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.200 0-7.800.4A2.5 2.5 0 0 0 2.400 7.200C2 8.800 2 12 2 12s0 3.200.4 4.800a2.500 2.500 0 0 0 1.800 1.800C5.800 19 12 19 12 19s6.200 0 7.800-.4a2.500 2.500 0 0 0 1.800-1.800c.4-1.600.4-4.800.4-4.800s0-3.200-.4-4.800zM10 15V9l5.200 3z"/></svg>',
+  X: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.800 3h3.100l-6.800 7.700L22 21h-6.200l-4.900-6.300L5.300 21H2.200l7.200-8.300L1.800 3h6.400l4.400 5.800zm-1.100 16.200h1.700L7.400 4.700H5.600z"/></svg>',
+};
+---
+<footer class="footer" id="contact">
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <a class="brand" href="/" aria-label={`${site.name}, home`}>
+          <Logo />
+          <span class="brand-name">{site.name}<small>Kingdom Impact Movement</small></span>
+        </a>
+        <p class="f-tag">{site.tagline}.</p>
+        <p style="max-width:42ch">A Christ-centred movement committed to empowering people, building sustainable resources, funding Kingdom work and transforming lives.</p>
+      </div>
+      <nav aria-label="Footer">
+        <h3>Explore</h3>
+        <ul>
+          {footerNav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        </ul>
+      </nav>
+      <div class="contact">
+        <h3>Contact</h3>
+        <p><a href={`mailto:${contact.email}`}>{contact.email}</a></p>
+        <p><a href={`tel:+${contact.phoneIntl}`}>{contact.phoneDisplay}</a></p>
+        <div class="social">
+          {social.map((s) =>
+            s.href ? (
+              <a href={s.href} aria-label={s.label} set:html={icons[s.label]} />
+            ) : (
+              <span class="soc" role="img" aria-label={`${s.label} (coming soon)`} set:html={icons[s.label]} />
+            )
+          )}
+        </div>
+      </div>
+    </div>
+    <p class="statement"><span aria-hidden="true">“</span>{site.motto}<span aria-hidden="true">”</span></p>
+    <div class="legal">
+      <span>© {new Date().getFullYear()} {site.name}. All rights reserved.</span>
+      <span>{site.tagline}.</span>
+    </div>
+  </div>
+</footer>

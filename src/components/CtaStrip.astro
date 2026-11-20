@@ -1,0 +1,9 @@
+---
+const { title, label = 'Join the movement', href = '/get-involved' } = Astro.props;
+---
+<section class="section cta-strip" aria-label="Get involved">
+  <div class="wrap">
+    <h2>{title}</h2>
+    <a class="btn btn-primary" href={href}>{label}</a>
+  </div>
+</section>
